@@ -5,9 +5,6 @@ import Star from '../../Star'
 import './style.scss'
 
 class CommentItem extends React.PureComponent {
-    constructor(props, context) {
-        super(props, context);
-    }
     render() {
         // 获取数据
         const item = this.props.data

@@ -1,7 +1,8 @@
 import 'whatwg-fetch'
 
+
 const get = function (url){
-    var result = fetch(url,{
+    var result = fetch( url, {
         credentials: 'include',
         headers: {
             'Accept': 'application/json, text/plain, */*'
@@ -23,7 +24,7 @@ const postParams = function(obj){
 }
 
 const post = function(url, params){
-    var result = fetch(url, {
+    var result = fetch( url, {
         method: 'POST',
         credentials: 'include',
         headers: {

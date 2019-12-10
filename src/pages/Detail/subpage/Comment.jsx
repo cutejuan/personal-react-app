@@ -1,10 +1,11 @@
 import React from 'react'
-import { getCommentData } from '../../../utils/api'
+import api from '../../../utils/api'
 
 import ListComponent from '../../../components/CommentList'
-import LoadMore from '../../../components/LoadMore'
 
 import './style.scss'
+
+const { getCommentData } = api
 
 class Comment extends React.PureComponent {
     constructor(props, context) {
@@ -25,11 +26,7 @@ class Comment extends React.PureComponent {
                     ? <ListComponent data={this.state.data}/>
                     : <div>{/* 加载中... */}</div>
                 }
-                {
-                    this.state.hasMore
-                    ? <LoadMore isLoadingMore={this.state.isLoadingMore} loadMoreFn={this.loadMoreData.bind(this)}/>
-                    : ''
-                }
+                
             </div>
         )
     }
@@ -69,7 +66,6 @@ class Comment extends React.PureComponent {
             this.setState({
                 page: page + 1
             })
-
             const hasMore = json.hasMore
             const data = json.data
 
@@ -77,13 +73,11 @@ class Comment extends React.PureComponent {
                 hasMore: hasMore,
                 data: [
 					...this.state.data,
-					data
+					...data
 				]
             })
         }).catch(ex => {
-            if (__DEV__) {
-                console.error('用户评论出错, ', ex.message)
-            }
+            console.error('用户评论出错, ', ex.message)
         })
     }
 }

@@ -1,12 +1,9 @@
 import React from 'react'
-import { Link } from 'react-router'
+import { Link } from 'react-router-dom'
 
 import './style.scss'
 
 class ListItem extends React.PureComponent {
-    constructor(props, context) {
-        super(props, context);
-    }
     render() {
         const data = this.props.data
         return (

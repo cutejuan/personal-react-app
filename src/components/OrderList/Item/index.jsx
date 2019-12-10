@@ -1,6 +1,6 @@
 import React from 'react'
 
-import { postComment } from '../../../utils/api'
+// import { postComment } from '../../../utils/api'
 import Star from '../../Star'
 
 import './style.scss'
@@ -8,7 +8,6 @@ import './style.scss'
 class Item extends React.PureComponent {
     constructor(props, context) {
         super(props, context);
-        this.shouldComponentUpdate = PureRenderMixin.shouldComponentUpdate.bind(this);
         this.state = {
             commentState: 2,  //  0-未评价 1-评价中 2-已评价
             stars: {}
@@ -21,7 +20,7 @@ class Item extends React.PureComponent {
             <div className="order-item-container">
                 <div className="clear-fix">
                     <div className="order-item-img float-left">
-                        <img src={data.img}/>
+                        <img src={data.img} alt={data.title}/>
                     </div>
                     <div className="order-item-comment float-right">
                         {

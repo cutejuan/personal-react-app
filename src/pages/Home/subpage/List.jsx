@@ -1,10 +1,12 @@
 import React from 'react'
-import { getListData } from '../../../utils/api'
+import api from '../../../utils/api'
 
 import ListCompoent from '../../../components/List'
 import LoadMore from '../../../components/LoadMore'
 
 import './style.scss'
+
+const {getListData} = api;
 
 class List extends React.PureComponent {
     constructor(props, context) {
@@ -18,17 +20,26 @@ class List extends React.PureComponent {
     }
     render() {
         return (
-            <div>
+            <div className="cainixihuan">
                 <h2 className="home-list-title">猜你喜欢</h2>
                 {
-                    this.state.data.length
-                    ? <ListCompoent data={this.state.data}/>
+                    this.props.list.length
+                    ? <ListCompoent data={this.props.list}/>
                     : <div>{/* 加载中... */}</div>
                 }
                 {
-                    this.state.hasMore
-                    ? <LoadMore isLoadingMore={this.state.isLoadingMore} loadMoreFn={this.loadMoreData.bind(this)}/>
-                    : ''
+                    this.props.showLoad ? 
+                    (<div style={{
+                        width: '100%',
+                        position: 'absolute',
+                        left: '0',
+                        bottom: '-41px',
+                        backgroundColor: '#fff',
+                        textAlign: 'center'
+                    }}>
+                        <LoadMore isLoadingMore={this.state.isLoadingMore} loadMoreFn={this.loadMoreData.bind(this)} />
+                    </div>)
+                    : null
                 }
             </div>
         )
@@ -45,6 +56,7 @@ class List extends React.PureComponent {
     }
     // 加载更多数据
     loadMoreData() {
+        console.log('执行加载更多');
         // 记录状态
         this.setState({
             isLoadingMore: true
@@ -63,20 +75,16 @@ class List extends React.PureComponent {
     }
     // 处理数据
     resultHandle(result) {
-        result.then(res => {
-            return res.json()
-        }).then(json => {
+        result.then(res => res.json()
+        ).then(json => {
             const hasMore = json.hasMore
             const data = json.data
-
             this.setState({
-                hasMore: hasMore,
-                data: [...this.state.data, data]
+                hasMore,
+                data: [...this.state.data, ...data]
             })
-        }).catch(ex => {
-            if (__DEV__) {
-                console.error('猜你喜欢报错, ', ex.message)
-            }
+        }).catch(err => {
+            console.error('猜你喜欢报错, ', err.message)
         })
     }
 }

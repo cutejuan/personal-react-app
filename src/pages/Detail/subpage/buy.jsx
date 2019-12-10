@@ -1,8 +1,5 @@
 import React from 'react'
 import { connect } from 'react-redux'
-import { bindActionCreators } from 'redux'
-
-import {update, add, rm} from '../../../store/storeReducer'
 
 import BuyAndStore from '../../../components/BuyAndStore'
 
@@ -68,13 +65,13 @@ class Buy extends React.PureComponent {
         }
 
         const id = this.props.id
-        const storeActions = this.props.storeActions
+
         if (this.state.isStore) {
             // 已经被收藏了，则取消收藏
-            storeActions.rm({id: id})
+            this.props.rm({id: id})
         } else {
             // 未收藏，则添加到收藏中
-            storeActions.add({id: id})
+            this.props.add({id: id})
         }
         // 修改状态
         this.setState({
@@ -85,14 +82,31 @@ class Buy extends React.PureComponent {
 
 function mapStateToProps(state) {
     return {
-        userinfo: state.userinfo,
-        store: state.store
+        userinfo: state.userInfo,
+        store: state.storeReducer
     }
 }
 
 function mapDispatchToProps(dispatch) {
     return {
-        storeActions: bindActionCreators({update, add, rm}, dispatch)
+        update(data){
+            dispatch({
+                type: 'storeUpdate',
+                value: data
+            })
+        },
+        add(item){
+            dispatch({
+                type: 'storeAdd',
+                value: item
+            })
+        },
+        rm(item){
+            dispatch({
+                type: 'storeRM',
+                value: item
+            })
+        }
     }
 }
 export default connect(

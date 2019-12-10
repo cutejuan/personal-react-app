@@ -5,9 +5,6 @@ import Star from '../../components/Star'
 import './style.scss'
 
 class DetailInfo extends React.PureComponent {
-    constructor(props, context) {
-        super(props, context);
-    }
     render() {
         // 获取数据
         const data = this.props.data
@@ -16,7 +13,7 @@ class DetailInfo extends React.PureComponent {
             <div id="detail-info-container">
                 <div className="info-container clear-fix">
                     <div className="info-img-container float-left">
-                        <img src={data.img}/>
+                        <img src={data.img} alt="详情"/>
                     </div>
                     <div className="info-content">
                         <h1>{data.title}</h1>

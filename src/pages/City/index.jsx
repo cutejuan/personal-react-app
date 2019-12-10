@@ -1,20 +1,15 @@
 import React from 'react'
-import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 
 import Header from '../../components/Header'
 import CurrentCity from '../../components/CurrentCity'
 import CityList from '../../components/CityList'
 
-import {userUpdate} from '../../store/userinfoReducer.js'
 
 import { CITYNAME } from '../../utils/localStoreKey'
-import localStore from '../../util/localStore'
+import localStore from '../../utils/localStore'
 
 class City extends React.PureComponent {
-    constructor(props, context) {
-        super(props, context);
-    }
     render() {
         return (
             <div>
@@ -31,7 +26,10 @@ class City extends React.PureComponent {
         // 修改 redux
         const userinfo = this.props.userinfo
         userinfo.cityName = newCity
-        this.props.userInfoActions.update(userinfo)
+
+        console.log(this.props.userUpdate);
+
+        this.props.userUpdate(userinfo)
 
         // 修改 cookie
         localStore.setItem(CITYNAME, newCity)
@@ -43,13 +41,18 @@ class City extends React.PureComponent {
 
 const mapStateToProps = (state)=> {
     return {
-        userinfo: state.userinfo
+        userinfo: state.userInfo
     }
 }
 
 const mapDispatchToProps = (dispatch)=> {
     return {
-        userInfoActions: bindActionCreators(userUpdate, dispatch)
+        userUpdate(data){
+            dispatch({
+                type: 'userinfoUpdate',
+                value: data
+            })
+        }
     }
 }
 export default connect(

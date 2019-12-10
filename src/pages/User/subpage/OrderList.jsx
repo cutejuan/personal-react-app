@@ -1,15 +1,14 @@
 import React from 'react'
-import PureRenderMixin from 'react-addons-pure-render-mixin'
-import { getOrderListData, postComment } from '../../../fetch/user/orderlist'
-
 import OrderListComponent from '../../../components/OrderList'
 
-import './style.less'
+import './style.scss'
+import api from '../../../utils/api'
 
-class OrderList extends React.Component {
+const { getOrderListData, postComment } = api;
+
+class OrderList extends React.PureComponent {
     constructor(props, context) {
         super(props, context);
-        this.shouldComponentUpdate = PureRenderMixin.shouldComponentUpdate.bind(this);
         this.state = {
             data: []
         }
@@ -36,17 +35,15 @@ class OrderList extends React.Component {
     // 获取列表数据
     loadOrderList(username) {
         const result = getOrderListData(username)
+        
         result.then(res => {
             return res.json()
         }).then(json => {
-            // 获取数据
             this.setState({
                 data: json
             })
         }).catch(ex => {
-            if (__DEV__) {
-                console.error('用户主页“订单列表”获取数据报错, ', ex.message)
-            }
+            console.error('用户主页“订单列表”获取数据报错, ', ex.message)
         })
     }
     // 提交评价

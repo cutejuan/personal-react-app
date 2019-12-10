@@ -1,6 +1,7 @@
 import React from 'react'
 import HomeAd from '../../../components/HomeAd/index'
-import {getAdData} from '../../../utils/api'
+import API from '../../../utils/api'
+const {getAdData} = API
 
 class Ad extends React.PureComponent {
     constructor(props, context) {
@@ -23,9 +24,8 @@ class Ad extends React.PureComponent {
     componentDidMount() {
         // 获取广告数据
         const result = getAdData();
-        result.then(res => {
-            return res.json()
-        }).then(json => {
+        result.then(res=>res.json())
+        .then(json => {
             // 处理获取的数据
             const data = json
             if (data.length) {
@@ -35,9 +35,7 @@ class Ad extends React.PureComponent {
             }
         }).catch(ex => {
             // 发生错误
-            if (__DEV__) {
-                console.error('首页广告模块获取数据报错, ', ex.message)
-            }
+            console.error('首页广告模块获取数据报错, ', ex.message)
         })
     }
 }

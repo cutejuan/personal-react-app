@@ -5,9 +5,6 @@ import SearchInput from '../SearchInput'
 import './style.scss'
 
 class SearchHeader extends React.PureComponent {
-    constructor(props, context) {
-        super(props, context);
-    }
     render() {
         return (
             <div id="search-header" className="clear-fix">

@@ -4,9 +4,9 @@ import { connect } from 'react-redux'
 import ListCompoent from '../../../components/List'
 import LoadMore from '../../../components/LoadMore'
 
-import { getSearchData } from '../../../utils/api'
+import api from '../../../utils/api'
+const {getSearchData} = api;
 
-// 初始化一个组件的 state
 const initialState = {
     data: [],
     hasMore: false,
@@ -24,13 +24,22 @@ class SearchList extends React.PureComponent {
             <div>
                 {
                     this.state.data.length
-                    ? <ListCompoent data={this.state.data}/>
+                    ? <ListCompoent data={this.props.searchlist}/>
                     : <div>{/* 加载中... */}</div>
                 }
                 {
-                    this.state.hasMore
-                    ? <LoadMore isLoadingMore={this.state.isLoadingMore} loadMoreFn={this.loadMoreData.bind(this)}/>
-                    : ''
+                    this.props.showLoad ? 
+                    (<div style={{
+                        width: '100%',
+                        position: 'absolute',
+                        left: '0',
+                        bottom: '-41px',
+                        backgroundColor: '#fff',
+                        textAlign: 'center'
+                    }}>
+                        <LoadMore isLoadingMore={this.state.isLoadingMore} loadMoreFn={this.loadMoreData.bind(this)} />
+                    </div>)
+                    : null
                 }
             </div>
         )
@@ -77,17 +86,15 @@ class SearchList extends React.PureComponent {
         result.then(res => {
             return res.json()
         }).then(json => {
+            
             const hasMore = json.hasMore
             const data = json.data
-
             this.setState({
                 hasMore: hasMore,
-                data: [...this.state.data, data]
+                data: [...this.state.data, ...data]
             })
         }).catch(ex => {
-            if (__DEV__) {
-                console.error('搜索页报错, ', ex.message)
-            }
+            console.error('搜索页报错, ', ex.message)
         })
     }
     // 处理重新搜索
@@ -110,7 +117,7 @@ class SearchList extends React.PureComponent {
 
 function mapStateToProps(state=initialState) {
     return {
-        userinfo: state.userinfo
+        userinfo: state.userInfo
     }
 }
 

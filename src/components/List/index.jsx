@@ -5,9 +5,6 @@ import Item from './Item'
 import './style.scss'
 
 class List extends React.PureComponent {
-    constructor(props, context) {
-        super(props, context);
-    }
     render() {
         return (
             <div className="list-container">

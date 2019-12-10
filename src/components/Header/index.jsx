@@ -3,9 +3,6 @@ import React from 'react'
 import './style.scss'
 
 class Header extends React.PureComponent {
-    constructor(props, context) {
-        super(props, context);
-    }
     render() {
         return (
             <div id="common-header">
@@ -17,7 +14,11 @@ class Header extends React.PureComponent {
         )
     }
     clickHandle() {
-		this.props.history.back();
+        if(this.props.isUserPage){
+            this.props.history.go(-2);
+        } else {
+            this.props.history.goBack();
+        }
         // const backRouter = this.props.backRouter
         // if (backRouter) {
         //     hashHistory.push(hashHistory)
@@ -25,6 +26,8 @@ class Header extends React.PureComponent {
         //     window.history.back()
         // }
     }
+
+
 }
 
 export default Header

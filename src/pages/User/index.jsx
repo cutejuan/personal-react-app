@@ -5,16 +5,15 @@ import Header from '../../components/Header'
 import UserInfo from '../../components/UserInfo'
 import OrderList from './subpage/OrderList'
 
+import localStore from '../../utils/localStore'
+import {createHashHistory} from 'history'
+
 class User extends React.PureComponent {
-    constructor(props, context) {
-        super(props, context);
-        this.shouldComponentUpdate = PureRenderMixin.shouldComponentUpdate.bind(this);
-    }
     render() {
         const userinfo = this.props.userinfo
         return (
             <div>
-                <Header title="用户主页" backRouter="/home"/>
+                <Header title="用户主页" backRouter="/home" history={createHashHistory()} isUserPage/>
                 <UserInfo username={userinfo.username} city={userinfo.cityName}/>
                 <OrderList username={userinfo.username}/>
             </div>
@@ -22,7 +21,11 @@ class User extends React.PureComponent {
     }
     componentDidMount() {
         // 如果未登录，跳转到登录页面
-        if (!this.props.userinfo.username) {
+        let localstorageUser = localStore.getItem('username');
+        if(this.props.userinfo.username || localstorageUser) {
+            console.log('User组件，确认已登录');
+        }
+        else {
             this.props.history.push('/Login')
         }
     }
@@ -30,7 +33,7 @@ class User extends React.PureComponent {
 
 function mapStateToProps(state) {
     return {
-        userinfo: state.userinfo
+        userinfo: state.userInfo
     }
 }
 

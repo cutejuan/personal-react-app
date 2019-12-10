@@ -3,9 +3,6 @@ import React from 'react'
 import './style.scss'
 
 class CurrentCity extends React.PureComponent {
-    constructor(props, context) {
-        super(props, context);
-    }
     render() {
         return (
             <div className="current-city">

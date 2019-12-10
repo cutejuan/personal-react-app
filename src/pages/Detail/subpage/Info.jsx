@@ -1,7 +1,9 @@
 import React from 'react'
 
-import { getInfoData } from '../../../utils/api'
+import api from '../../../utils/api'
 import DetailInfo from '../../../components/DetailInfo'
+
+const { getInfoData } = api;
 
 class Info extends React.PureComponent {
     constructor(props, context) {
@@ -35,9 +37,7 @@ class Info extends React.PureComponent {
                 info: json
             })
         }).catch(ex => {
-            if (__DEV__) {
-                console.error('获取商户信息出错')
-            }
+            console.error('获取商户信息出错')
         })
     }
 }

@@ -1,27 +1,24 @@
 import React from 'react'
 import ReactSwipe from 'react-swipe'
-import { Link } from 'react-router'
+import { Link } from 'react-router-dom'
 
 import './style.scss'
 
 class Category extends React.PureComponent {
-    constructor(props, context) {
-        super(props, context);
-        this.shouldComponentUpdate = PureRenderMixin.shouldComponentUpdate.bind(this);
-        this.state = {
-            index: 0
-        }
-    }
-    render() {
-		// 轮播图配置项
+    render(){
+
+        // 轮播图配置项
         const opt = {
+            startSlide: 0,
             auto: 2500,
-            callback: function (index) {
+            continuous: true,
+            disableScroll: false,
+            stopPropagation: false,
+            callback: function (num) {
                 // 更新当前轮播图的index
-                this.setState({index: index});
+               this.setClassName(num)
             }.bind(this)
         }
-
         return (
             <div id="home-category">
                 <ReactSwipe className="carousel" swipeOptions={opt}>
@@ -69,14 +66,26 @@ class Category extends React.PureComponent {
                     </div>
                 </ReactSwipe>
                 <div className="index-container">
-                    <ul>
-                        <li className={this.state.index === 0 ? "selected" : ''}></li>
-                        <li className={this.state.index === 1 ? "selected" : ''}></li>
-                        <li className={this.state.index === 2 ? "selected" : ''}></li>
+                    <ul ref={(el)=>{this.lis=el}}>
+                        <li className="selected"></li>
+                        <li ></li>
+                        <li ></li>
                     </ul>
                 </div>
             </div>
         )
+        
+    }
+  
+    setClassName(num){
+        let Lis = this.lis.querySelectorAll('li');
+        Lis.forEach((item, index) => {
+            if(index===num){
+                item.className = "selected";
+            } else {
+                item.className = ""
+            }
+        });
     }
 }
 

@@ -1,17 +1,32 @@
-import {get, post} from './fetch'
+import fetch from './fetch.js'
 
-const getAdData = function(){
-	let result = get('/api/homead');
-	return result
+const getAdData = async ()=> {
+    let result = await fetch.get('/api/homead');
+    try{
+        if (!result.msg){
+            return result
+        }
+    }
+    catch(err){
+        throw new Error(err);
+    }
 }
 
-const getListData = function (city, page) {
-    const result = get('/api/homelist/' + encodeURIComponent(city) + '/' + page)
-    return result
+const getListData = async (city, page) => {
+    const result = await fetch.get('/api/homelist/' + encodeURIComponent(city) + '/' + page)
+
+    try{
+        if (!result.msg){
+            return result
+        }
+    }
+    catch(err){
+        throw new Error(err)
+    }
 }
 
 const postComment = function (id, comment, star) {
-    const result = post('/api/submitComment', {
+    const result = fetch.post('/api/submitComment', {
         id: id,
         comment: comment,
         star: star
@@ -21,19 +36,53 @@ const postComment = function (id, comment, star) {
 
 const getSearchData = function (page, cityName, category, keyword) {
     const keywordStr = keyword ? '/' + keyword : ''
-    const result = get('/api/search/' + page + '/' + cityName + '/' + category + keywordStr)
-    return result
+    const result = fetch.get('/api/search/' + page + '/' + cityName + '/' + category + keywordStr)
+    try{
+        if (!result.msg){
+            return result
+        }
+    }
+    catch(err){
+        throw new Error(err);
+    }
 }
 
 const getInfoData = function (id) {
-   const result = get('/api/detail/info/' + id)
-   return result
+   const result = fetch.get('/api/detail/info/' + id)
+   try{
+        if (!result.msg){
+            return result
+        }
+    }
+    catch(err){
+        throw new Error(err);
+    }
 }
 
 const getCommentData = function (page, id) {
-    const result = get('/api/detail/comment/' + page + '/' + id)
-    return result
+    const result = fetch.get('/api/detail/comment/' + page + '/' + id)
+    try{
+        if (!result.msg){
+            return result
+        }
+    }
+    catch(err){
+        throw new Error(err);
+    }
 }
+
+const getOrderListData = function (username) {
+    const result = fetch.get('/api/orderlist/' + username)
+    try{
+        if (!result.msg){
+            return result
+        }
+    }
+    catch(err){
+        throw new Error(err);
+    }
+}
+
 
 export default {
 	getAdData,
@@ -41,5 +90,6 @@ export default {
 	postComment,
 	getSearchData,
 	getInfoData,
-	getCommentData
+    getCommentData,
+    getOrderListData
 }
